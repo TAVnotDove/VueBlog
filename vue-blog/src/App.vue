@@ -1,14 +1,25 @@
-<script setup>
-	import AppHeader from './components/AppHeader.vue'
-	import AppFooter from './components/AppFooter.vue'
+<script>
+	import AppHeader from './components/AppHeader.vue';
+	import AppFooter from './components/AppFooter.vue';
+	import Home from './pages/Home.vue';
+	import Register from './pages/Register.vue';
+	import Login from './pages/Login.vue';
+
+	export default {
+    	data() {
+        	return {
+            	currentPage: 'Home'
+			}
+        },
+		components: { AppHeader, AppFooter, Home, Register, Login }
+    }
+
 </script>
 
 <template>
-    <AppHeader></AppHeader>
+    <AppHeader @changed-page="newPage => { currentPage = newPage }"></AppHeader>
     <main class="flex-center">
-		<div>
-			<h1>Welcome to VueBlog!</h1>
-		</div>
+		<component :is="currentPage"></component>
 	</main>
 	<AppFooter></AppFooter>
 </template>

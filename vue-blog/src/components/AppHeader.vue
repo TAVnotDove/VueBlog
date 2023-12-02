@@ -1,15 +1,15 @@
 <script>
     export default {
-        
+        emits: ['changedPage']
     }
 </script>
 
 <template>
     <header>
         <nav>
-            <a href="#">Home</a>
-            <a href="#">Register</a>
-            <a href="#">Login</a>
+            <a href="#" @click="$emit('changedPage', 'Home')">Home</a>
+            <a href="#" @click="$emit('changedPage', 'Register')">Register</a>
+            <a href="#" @click="$emit('changedPage', 'Login')">Login</a>
         </nav>
     </header>
 </template>
