@@ -1,15 +1,12 @@
 <script>
-    export default {
-        emits: ['changedPage']
-    }
 </script>
 
 <template>
     <header>
         <nav>
-            <a href="#" @click="$emit('changedPage', 'Home')">Home</a>
-            <a href="#" @click="$emit('changedPage', 'Register')">Register</a>
-            <a href="#" @click="$emit('changedPage', 'Login')">Login</a>
+            <router-link to="/">Home</router-link>
+            <router-link to="/login">Login</router-link>
+            <router-link to="/register">Register</router-link>
         </nav>
     </header>
 </template>
@@ -31,6 +28,10 @@
         color: black;
         font-size: 2rem;
         padding: 0.5rem;
+    }
+
+    a.router-link-active {
+        color: gray
     }
 
     a:hover {
