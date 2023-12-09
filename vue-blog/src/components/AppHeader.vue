@@ -1,16 +1,16 @@
 <script>
-    import useUserStore from "../store/userStore";
-    import { mapState } from "pinia";
+import useUserStore from "../store/userStore";
+import { mapState } from "pinia";
 
-    export default {
-        setup() {
-            const userStore = useUserStore()
-            return { userStore }
-        },
-        computed: {
-            ...mapState(useUserStore, ['isAuth'])
-        }
+export default {
+    setup() {
+        const userStore = useUserStore()
+        return { userStore }
+    },
+    computed: {
+        ...mapState(useUserStore, ['isAuth'])
     }
+}
 </script>
 
 <template>
@@ -24,29 +24,29 @@
 </template>
 
 <style scoped>
-    header {
-        height: 10%;
-    }
+header {
+    height: 10%;
+}
 
-    nav {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 100%;
-    }
+nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
 
-    a {
-        text-decoration: none;
-        color: black;
-        font-size: 2rem;
-        padding: 0.5rem;
-    }
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 2rem;
+    padding: 0.5rem;
+}
 
-    a.router-link-active {
-        color: gray;
-    }
+a.router-link-active {
+    color: gray;
+}
 
-    a:hover {
-        color: gray;
-    }
+a:hover {
+    color: gray;
+}
 </style>
