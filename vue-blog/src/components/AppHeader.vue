@@ -1,4 +1,16 @@
 <script>
+    import useUserStore from "../store/userStore";
+    import { mapState } from "pinia";
+
+    export default {
+        setup() {
+            const userStore = useUserStore()
+            return { userStore }
+        },
+        computed: {
+            ...mapState(useUserStore, ['isAuth'])
+        }
+    }
 </script>
 
 <template>
@@ -31,7 +43,7 @@
     }
 
     a.router-link-active {
-        color: gray
+        color: gray;
     }
 
     a:hover {
