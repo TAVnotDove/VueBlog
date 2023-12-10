@@ -2,6 +2,8 @@
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import { register } from '../dataProviders/auth'
+import useUserStore from '../store/userStore'
+import { mapActions } from 'pinia'
 
 export default {
     data() {
@@ -29,6 +31,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(useUserStore, ['loginUser']),
         async submitHandler() {
             const isValid = await this.v$.$validate()
 
@@ -43,6 +46,10 @@ export default {
 
                 if (!res.message) {
                     localStorage.setItem('user-data', JSON.stringify(res.data))
+
+                    this.loginUser(res.data)
+
+                    this.$router.push('profile')
                 } else {
                     this.submitError = res.message
                 }

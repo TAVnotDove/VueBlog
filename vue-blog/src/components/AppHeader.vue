@@ -15,7 +15,10 @@ export default {
         logoutHandler() {
             if (window.confirm("Are you sure you want to logout?")) {
                 localStorage.clear()
+
                 this.logoutUser()
+
+                this.$router.push('/')
             }
         }
     }
@@ -28,6 +31,7 @@ export default {
             <router-link to="/">Home</router-link>
             <router-link v-if="!isAuth" to="/login">Login</router-link>
             <router-link v-if="!isAuth" to="/register">Register</router-link>
+            <router-link v-if="isAuth" to="/profile">Profile</router-link>
             <button v-if="isAuth" @click="logoutHandler">Logout</button>
         </nav>
     </header>

@@ -14,3 +14,16 @@ export async function register(userData) {
     }
   }
 }
+
+export async function login(userData) {
+  try {
+    const res = await axios.post(`${BASE_URL}/login`, userData);
+    return res;
+  } catch (error) {
+    if (error.message === "Network Error") {
+      return { message: error.message };
+    } else {
+      return error.response.data;
+    }
+  }
+}
