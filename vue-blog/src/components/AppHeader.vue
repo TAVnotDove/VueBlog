@@ -1,6 +1,6 @@
 <script>
 import useUserStore from "../store/userStore";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 
 export default {
     setup() {
@@ -9,6 +9,15 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ['isAuth'])
+    },
+    methods: {
+        ...mapActions(useUserStore, ['logoutUser']),
+        logoutHandler() {
+            if (window.confirm("Are you sure you want to logout?")) {
+                localStorage.clear()
+                this.logoutUser()
+            }
+        }
     }
 }
 </script>
@@ -17,8 +26,9 @@ export default {
     <header>
         <nav>
             <router-link to="/">Home</router-link>
-            <router-link to="/login">Login</router-link>
-            <router-link to="/register">Register</router-link>
+            <router-link v-if="!isAuth" to="/login">Login</router-link>
+            <router-link v-if="!isAuth" to="/register">Register</router-link>
+            <button v-if="isAuth" @click="logoutHandler">Logout</button>
         </nav>
     </header>
 </template>
@@ -33,6 +43,18 @@ nav {
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
+}
+
+button {
+    border: 0;
+    background-color: transparent;
+    font-size: 2rem;
+    padding: 0.5rem;
+}
+
+button:hover {
+    color: gray;
+    cursor: pointer;
 }
 
 a {
