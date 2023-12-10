@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 const useUserStore = defineStore("user", {
-  state: () => ({ isAuth: false, user: {} }),
+  state: () => ({ isAuth: !!localStorage.getItem("user-data"), user: {} }),
   getters: {
     getIsAuth(state) {
       return state.isAuth;
