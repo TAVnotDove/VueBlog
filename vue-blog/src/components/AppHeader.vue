@@ -28,9 +28,11 @@ export default {
 <template>
     <header>
         <nav>
-            <router-link to="/">Home</router-link>
+            <router-link v-if="!isAuth" to="/">Home</router-link>
             <router-link v-if="!isAuth" to="/login">Login</router-link>
             <router-link v-if="!isAuth" to="/register">Register</router-link>
+            <router-link v-if="isAuth" to="/posts">Posts</router-link>
+            <router-link v-if="isAuth" to="/posts/create">Create post</router-link>
             <router-link v-if="isAuth" to="/profile">Profile</router-link>
             <button v-if="isAuth" @click="logoutHandler">Logout</button>
         </nav>
