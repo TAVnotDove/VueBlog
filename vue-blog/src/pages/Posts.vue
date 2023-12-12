@@ -22,8 +22,8 @@ export default {
     <h1 v-if="posts.length === 0">No posts found</h1>
     <div v-else class="posts-container">
         <div v-for="post in posts" class="post">
-            <h3>Title: {{ post.title }}</h3>
-            <h3>Author: {{ post.author.username }}</h3>
+            <h3>Title: {{ post?.title }}</h3>
+            <h3>Author: {{ post?.author?.username }}</h3>
             <router-link :to="'/posts/' + post._id">Details</router-link>
         </div>
     </div>
@@ -38,6 +38,7 @@ a {
 a:hover {
     color: gray;
 }
+
 .posts-container {
     display: flex;
     flex-direction: column;
