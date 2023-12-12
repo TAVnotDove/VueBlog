@@ -32,7 +32,7 @@ export default {
     methods: {
         async submitHandler() {
             const isValid = await this.v$.$validate()
-            console.log(isValid)
+
             if (isValid) {
 
                 const res = await createPost(this.userData.jwt, this.formData)

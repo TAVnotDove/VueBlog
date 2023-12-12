@@ -24,11 +24,20 @@ export default {
         <div v-for="post in posts" class="post">
             <h3>Title: {{ post.title }}</h3>
             <h3>Author: {{ post.author.username }}</h3>
+            <router-link :to="'/posts/' + post._id">Details</router-link>
         </div>
     </div>
 </template>
 
 <style scoped>
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: gray;
+}
 .posts-container {
     display: flex;
     flex-direction: column;
