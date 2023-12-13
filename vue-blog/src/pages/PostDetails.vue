@@ -83,43 +83,55 @@ export default {
 
 <template>
     <slot v-if="!isLoading">
-        <div class="post">
-            <p>Title: {{ post.title }}</p>
-            <p>Text: {{ post.text }}</p>
-            <p>Author: {{ post.author.username }}</p>
-            <router-link v-if="userData.user.id === post.author._id" :to="`/posts/${post._id}/edit`">Edit</router-link>
-            <button class="dlt" v-if="userData.user.id === post.author._id" @click="deletePostHandler">Delete</button>
-        </div>
-        <div class="flex-center" style="flex-direction: column;">
-            <slot v-if="!editMode">
-                <label for="write-comment">Text:</label>
-                <input id="write-comment" v-model="text">
-                <button @click="commentHandler">Comment</button>
-            </slot>
-            <slot v-else>
-                <label for="write-comment">Text:</label>
-                <input id="write-comment" v-model="editText">
-                <button @click="editCommentHandler">Edit</button>
-                <button @click="editMode = false">Cancel</button>
-            </slot>
-        </div>
-        <div style="flex-direction: column;" class="flex-center">
-            <p>Comments</p>
-            <div v-for="comment in post.comments" class="comment">
-                <p>{{ comment.author.username }}: {{ comment.text }}</p>
-
-                <button class="dlt" v-if="userData.user.id === comment.author._id"
-                    @click="showEdit(comment.text, comment._id)">Edit</button>
-                <button class="dlt" v-if="userData.user.id === comment.author._id"
-                    @click="deleteCommentHandler(comment._id, comment.text)">Delete</button>
+        <div class="container">
+            <div class="post">
+                <p>Title: {{ post.title }}</p>
+                <p>Text: {{ post.text }}</p>
+                <p>Author: {{ post.author.username }}</p>
+                <div class="buttons-container">
+                    <router-link v-if="userData.user.id === post.author._id" :to="`/posts/${post._id}/edit`">Edit</router-link>
+                    <button class="dlt" v-if="userData.user.id === post.author._id" @click="deletePostHandler">Delete</button>
+                </div>
+            </div>
+            <div class="flex-center" style="flex-direction: column;">
+                <slot v-if="!editMode">
+                    <label for="write-comment">Text:</label>
+                    <input id="write-comment" v-model="text">
+                    <button @click="commentHandler">Comment</button>
+                </slot>
+                <slot v-else>
+                    <label for="write-comment">Text:</label>
+                    <input id="write-comment" v-model="editText">
+                    <button @click="editCommentHandler">Edit</button>
+                    <button @click="editMode = false">Cancel</button>
+                </slot>
+            </div>
+            <div style="flex-direction: column;" class="flex-center">
+                <p>Comments</p>
+                <div v-for="comment in post.comments" class="comment">
+                    <p>{{ comment.author.username }}: {{ comment.text }}</p>
+                    <div class="buttons-container">
+                        <button class="dlt" v-if="userData.user.id === comment.author._id"
+                        @click="showEdit(comment.text, comment._id)">Edit</button>
+                        <button class="dlt" v-if="userData.user.id === comment.author._id"
+                        @click="deleteCommentHandler(comment._id, comment.text)">Delete</button>
+                    </div>
+                </div>
             </div>
         </div>
+
     </slot>
 </template>
 
 <style scoped>
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 div.post {
-    background-color: lightgray;
+    background-color: rgba(0, 255, 0, 0.2);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -127,7 +139,9 @@ div.post {
 }
 
 div.comment {
-    background-color: darkgray;
+    background-color: rgba(0, 255, 0, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
 }
 
 a {

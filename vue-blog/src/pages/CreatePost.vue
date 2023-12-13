@@ -49,16 +49,26 @@ export default {
 </script>
 
 <template>
-    <div class="form-container">
+    <div class="container">
         <h1>Create Post</h1>
         <form @submit.prevent="submitHandler">
             <div class="field-container">
                 <label for="title">Title</label>
                 <input id="title" v-model="formData.title">
             </div>
+            <div v-for="error of v$.formData.title.$errors" :key="error.$uid" class="input-errors">
+                <div class="error-msg">
+                    {{ error.$message }}
+                </div>
+            </div>
             <div class="field-container">
                 <label for="text">Text</label>
                 <input id="text" v-model="formData.text">
+            </div>
+            <div v-for="error of v$.formData.text.$errors" :key="error.$uid" class="input-errors">
+                <div class="error-msg">
+                    {{ error.$message }}
+                </div>
             </div>
             <button class="form-button">Post</button>
             <p class="error">{{ submitError }}</p>
@@ -66,8 +76,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-.error {
-    color: red;
-}
-</style>
+<style scoped></style>

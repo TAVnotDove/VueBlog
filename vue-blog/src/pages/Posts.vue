@@ -28,18 +28,34 @@ export default {
 </script>
 
 <template>
-    <input type="text" placeholder="Search" @change="changeHandler($event)" />
-    <h1 v-if="posts.length === 0">No posts found</h1>
-    <div v-else class="posts-container">
-        <div v-for="post in posts" class="post">
-            <h3>Title: {{ post?.title }}</h3>
-            <h3>Author: {{ post?.author?.username }}</h3>
-            <router-link :to="'/posts/' + post._id">Details</router-link>
+    <div class="container">
+        <h1>Posts</h1>
+        <input class="search-bar" type="text" placeholder="Search" @change="changeHandler($event)" />
+        <h1 v-if="posts.length === 0">No posts found</h1>
+        <div v-else class="posts-container">
+            <div v-for="post in posts" class="post">
+                <h3>Title <br/>{{ post?.title }}</h3>
+                <h3>Author <br/>{{ post?.author?.username }}</h3>
+                <router-link :to="'/posts/' + post._id">Details</router-link>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.search-bar {
+    outline: none;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    align-self: center;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -54,7 +70,8 @@ a:hover {
     flex-direction: column;
     gap: 1rem;
     height: 454px;
-    flex-wrap: wrap;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 .post {

@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-    <div class="form-container">
+    <div class="container">
         <h1>Profile</h1>
         <form>
             <div class="field-container">

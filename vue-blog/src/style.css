@@ -21,11 +21,12 @@ body,
     align-items: center;
 }
 
-.form-container {
+.container {
     background-color: var(--secondary-bg-color);
     padding: 1rem;
     border: 1px solid black;
     border-radius: 10px;
+    min-width: 350px;
 }
 
 .field-container {
@@ -55,12 +56,17 @@ h1 {
     text-align: center;
 }
 
-.form-container h1 {
+.container h1 {
     margin-bottom: 1rem;
 }
 
-.form-container form {
+.container form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.input-errors {
+    color: red;
+    font-weight: 600;
 }

@@ -60,24 +60,44 @@ export default {
 </script>
 
 <template>
-    <div class="form-container">
+    <div class="container">
         <h1>Register</h1>
         <form @submit.prevent="submitHandler">
             <div class="field-container">
                 <label for="username">Username</label>
-                <input id="username" v-model="formData.username">
+                <input id="username" type="text" v-model="formData.username">
+            </div>
+            <div v-for="error of v$.formData.username.$errors" :key="error.$uid" class="input-errors">
+                <div class="error-msg">
+                    {{ error.$message }}
+                </div>
             </div>
             <div class="field-container">
                 <label for="email">Email</label>
-                <input id="email" v-model="formData.email">
+                <input id="email" type="email" v-model="formData.email">
+            </div>
+            <div v-for="error of v$.formData.email.$errors" :key="error.$uid" class="input-errors">
+                <div class="error-msg">
+                    {{ error.$message }}
+                </div>
             </div>
             <div class="field-container">
                 <label for="password">Password</label>
-                <input id="password" v-model="formData.password">
+                <input id="password" type="password" v-model="formData.password">
+            </div>
+            <div v-for="error of v$.formData.password.$errors" :key="error.$uid" class="input-errors">
+                <div class="error-msg">
+                    {{ error.$message }}
+                </div>
             </div>
             <div class="field-container">
                 <label for="confirmPassword">Confirm password</label>
-                <input id="confirmPassword" v-model="formData.confirmPassword">
+                <input id="confirmPassword" type="password" v-model="formData.confirmPassword">
+            </div>
+            <div v-for="error of v$.formData.confirmPassword.$errors" :key="error.$uid" class="input-errors">
+                <div class="error-msg">
+                    {{ error.$message }}
+                </div>
             </div>
             <button class="form-button">Register</button>
             <p class="error">{{ submitError }}</p>
@@ -85,8 +105,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-.error {
-    color: red;
-}
-</style>
+<style scoped></style>
