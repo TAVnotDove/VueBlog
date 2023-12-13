@@ -49,18 +49,21 @@ export default {
 </script>
 
 <template>
-    <form @submit.prevent="submitHandler">
-        <div>
-            <label>Title</label>
-            <input v-model="formData.title">
-        </div>
-        <div>
-            <label>Text</label>
-            <input v-model="formData.text">
-        </div>
-        <button>Post</button>
-        <p class="error">{{ submitError }}</p>
-    </form>
+    <div class="form-container">
+        <h1>Create Post</h1>
+        <form @submit.prevent="submitHandler">
+            <div class="field-container">
+                <label for="title">Title</label>
+                <input id="title" v-model="formData.title">
+            </div>
+            <div class="field-container">
+                <label for="text">Text</label>
+                <input id="text" v-model="formData.text">
+            </div>
+            <button class="form-button">Post</button>
+            <p class="error">{{ submitError }}</p>
+        </form>
+    </div>
 </template>
 
 <style scoped>
