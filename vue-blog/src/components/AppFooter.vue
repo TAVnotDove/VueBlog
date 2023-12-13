@@ -13,9 +13,11 @@
 <style scoped>
     footer {
         height: 10%;
+        background-color: var(--main-bg-color);
     }
 
     p {
+        color: var(--main-text-color);
         font-size: 2rem;
         font-weight: 600;
     }
