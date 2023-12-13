@@ -51,18 +51,21 @@ export default {
 </script>
 
 <template>
-    <form @submit.prevent="submitHandler">
-        <div>
-            <label>Email</label>
-            <input v-model="formData.email">
-        </div>
-        <div>
-            <label>Password</label>
-            <input v-model="formData.password">
-        </div>
-        <button>Login</button>
-        <p class="error">{{ submitError }}</p>
-    </form>
+    <div class="form-container">
+        <h1>Login</h1>
+        <form @submit.prevent="submitHandler">
+            <div class="field-container">
+                <label for="email">Email</label>
+                <input id="email" type="email" v-model="formData.email">
+            </div>
+            <div class="field-container">
+                <label for="password">Password</label>
+                <input id="password" type="password" v-model="formData.password">
+            </div>
+            <button class="form-button">Login</button>
+            <p class="error">{{ submitError }}</p>
+        </form>
+    </div>
 </template>
 
 <style scoped>

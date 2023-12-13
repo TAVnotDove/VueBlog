@@ -1,6 +1,7 @@
 :root {
     --main-bg-color: #35495e;
     --main-text-color: #42b883;
+    --secondary-bg-color: #42b8834d;
 }
 
 * {
@@ -18,4 +19,48 @@ body,
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.form-container {
+    background-color: var(--secondary-bg-color);
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.field-container label {
+    font-size: 1.25rem;
+}
+
+.field-container input {
+    outline: none;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+}
+
+.form-button {
+    background: linear-gradient(0deg, rgba(66, 211, 146, 1) 0%, rgba(96, 136, 243, 1) 100%);
+    padding: 1rem;
+    color: white;
+    font-size: 1.25rem;
+}
+
+h1 {
+    text-align: center;
+}
+
+.form-container h1 {
+    margin-bottom: 1rem;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }

@@ -60,26 +60,29 @@ export default {
 </script>
 
 <template>
-    <form @submit.prevent="submitHandler">
-        <div>
-            <label>Username</label>
-            <input v-model="formData.username">
-        </div>
-        <div>
-            <label>Email</label>
-            <input v-model="formData.email">
-        </div>
-        <div>
-            <label>Password</label>
-            <input v-model="formData.password">
-        </div>
-        <div>
-            <label>Confirm password</label>
-            <input v-model="formData.confirmPassword">
-        </div>
-        <button>Register</button>
-        <p class="error">{{ submitError }}</p>
-    </form>
+    <div class="form-container">
+        <h1>Register</h1>
+        <form @submit.prevent="submitHandler">
+            <div class="field-container">
+                <label for="username">Username</label>
+                <input id="username" v-model="formData.username">
+            </div>
+            <div class="field-container">
+                <label for="email">Email</label>
+                <input id="email" v-model="formData.email">
+            </div>
+            <div class="field-container">
+                <label for="password">Password</label>
+                <input id="password" v-model="formData.password">
+            </div>
+            <div class="field-container">
+                <label for="confirmPassword">Confirm password</label>
+                <input id="confirmPassword" v-model="formData.confirmPassword">
+            </div>
+            <button class="form-button">Register</button>
+            <p class="error">{{ submitError }}</p>
+        </form>
+    </div>
 </template>
 
 <style scoped>
