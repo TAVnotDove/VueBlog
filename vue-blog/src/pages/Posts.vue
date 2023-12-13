@@ -1,5 +1,5 @@
 <script>
-import { getAllPosts } from '../dataProviders/posts'
+import { getAllPosts, searchPosts } from '../dataProviders/posts'
 import useUserStore from '../store/userStore'
 import { mapState } from 'pinia'
 
@@ -14,11 +14,21 @@ export default {
     },
     async mounted() {
         this.posts = await getAllPosts(this.userData.jwt)
+    },
+    methods: {
+        async changeHandler(event) {
+            const res = await searchPosts(this.userData.jwt, event.currentTarget.value)
+
+            if (!res.message) {
+                this.posts = res.posts
+            }
+        }
     }
 }
 </script>
 
 <template>
+    <input type="text" placeholder="Search" @change="changeHandler($event)" />
     <h1 v-if="posts.length === 0">No posts found</h1>
     <div v-else class="posts-container">
         <div v-for="post in posts" class="post">

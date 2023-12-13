@@ -92,3 +92,24 @@ export async function deletePost(userToken, postId) {
     }
   }
 }
+
+export async function searchPosts(userToken, searchTerm) {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/posts-search?searchTerm=${searchTerm}`,
+      {
+        headers: {
+          jwt: userToken,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    if (error.message === "Network Error") {
+      return { message: error.message };
+    } else {
+      return error.response.data;
+    }
+  }
+}
