@@ -13,25 +13,29 @@ router.get("/api/posts", async (req, res) => {
 });
 
 router.get("/api/posts/:postId", async (req, res) => {
-  const post = await Post.findOne({ _id: req.params.postId })
-    .populate({
-      path: "comments",
-      populate: {
-        path: "author",
-        select: "username",
-      },
-    })
-    .populate({ path: "author", select: "username" });
+  try {
+    const post = await Post.findOne({ _id: req.params.postId })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "username",
+        },
+      })
+      .populate({ path: "author", select: "username" });
 
-  if (!post) return res.status(404).send({ message: "Post not found" });
+    if (!post) return res.status(404).send({ message: "Post not found" });
 
-  return res.status(200).send({
-    post,
-    hasLikedPost: post.likes.includes(req.userInSession.id),
-    hasLikedComments: post.comments.map((comment) =>
-      comment.likes.includes(req.userInSession.id)
-    ),
-  });
+    return res.status(200).send({
+      post,
+      hasLikedPost: post.likes.includes(req.userInSession.id),
+      hasLikedComments: post.comments.map((comment) =>
+        comment.likes.includes(req.userInSession.id)
+      ),
+    });
+  } catch (error) {
+    return res.status(404).send({ message: "Post not found" });
+  }
 });
 
 router.get("/api/posts-search", async (req, res) => {

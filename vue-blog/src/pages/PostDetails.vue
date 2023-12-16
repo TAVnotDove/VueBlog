@@ -1,4 +1,6 @@
 <script>
+import { useVuelidate } from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 import { getPost, deletePost } from '../dataProviders/posts';
 import { createComment, editComment, deleteComment } from '../dataProviders/comments'
 import useUserStore from '../store/userStore'
@@ -15,15 +17,25 @@ export default {
             editText: '',
         }
     },
+    setup() {
+        return { v$: useVuelidate() }
+    },
+    validations() {
+        return {
+            text: { required },
+        }
+    },
     computed: {
         ...mapState(useUserStore, ['userData'])
     },
     async mounted() {
         const result = await getPost(this.userData.jwt, this.$route.params.postId)
 
-        this.isLoading = false
         if (result.post) {
+            this.isLoading = false
             this.post = result.post
+        } else {
+            this.$router.push('/posts')
         }
     },
     methods: {
@@ -37,15 +49,22 @@ export default {
             }
         },
         async commentHandler() {
-            const res = await createComment(this.userData.jwt, this.text, this.$route.params.postId)
+            const isValid = await this.v$.$validate()
 
-            if (!res.message) {
-                const res2 = await getPost(this.userData.jwt, this.$route.params.postId)
+            if (isValid) {
+                const res = await createComment(this.userData.jwt, this.text, this.$route.params.postId)
 
-                if (!res2.message) {
-                    this.post = res2.post
+                if (!res.message) {
+                    const res2 = await getPost(this.userData.jwt, this.$route.params.postId)
+
+                    if (!res2.message) {
+                        this.post = res2.post
+                        this.text = ''
+                        this.v$.$reset()
+                    }
                 }
             }
+
         },
         async deleteCommentHandler(commentId, comment) {
             if (window.confirm(`Are you sure you want to delete ${comment}?`)) {
@@ -66,16 +85,19 @@ export default {
             this.editId = id
         },
         async editCommentHandler() {
-            const res = await editComment(this.userData.jwt, this.editText, this.$route.params.postId, this.editId)
+            if (this.editText !== '') {
+                const res = await editComment(this.userData.jwt, this.editText, this.$route.params.postId, this.editId)
 
-            if (res.message === "Comment changed") {
-                const res2 = await getPost(this.userData.jwt, this.$route.params.postId)
-                if (!res2.message) {
-                    this.post = res2.post
-                    this.editMode = false
+                if (res.message === "Comment changed") {
+                    const res2 = await getPost(this.userData.jwt, this.$route.params.postId)
+                    if (!res2.message) {
+                        this.post = res2.post
+                        this.editMode = false
+                    }
+
                 }
-
             }
+
         }
     }
 }
@@ -86,44 +108,71 @@ export default {
         <div class="container">
             <div class="post">
                 <p>Title: {{ post.title }}</p>
-                <p>Text: {{ post.text }}</p>
+                <p class="post-text">Text: {{ post.text }}</p>
                 <p>Author: {{ post.author.username }}</p>
                 <div class="buttons-container">
-                    <router-link v-if="userData.user.id === post.author._id" :to="`/posts/${post._id}/edit`">Edit</router-link>
-                    <button class="dlt" v-if="userData.user.id === post.author._id" @click="deletePostHandler">Delete</button>
+                    <router-link v-if="userData.user.id === post.author._id"
+                        :to="`/posts/${post._id}/edit`">Edit</router-link>
+                    <button class="dlt" v-if="userData.user.id === post.author._id"
+                        @click="deletePostHandler">Delete</button>
                 </div>
-            </div>
-            <div class="flex-center" style="flex-direction: column;">
-                <slot v-if="!editMode">
-                    <label for="write-comment">Text:</label>
-                    <input id="write-comment" v-model="text">
-                    <button @click="commentHandler">Comment</button>
-                </slot>
-                <slot v-else>
-                    <label for="write-comment">Text:</label>
-                    <input id="write-comment" v-model="editText">
-                    <button @click="editCommentHandler">Edit</button>
-                    <button @click="editMode = false">Cancel</button>
-                </slot>
             </div>
             <div style="flex-direction: column;" class="flex-center">
                 <p>Comments</p>
-                <div v-for="comment in post.comments" class="comment">
-                    <p>{{ comment.author.username }}: {{ comment.text }}</p>
-                    <div class="buttons-container">
-                        <button class="dlt" v-if="userData.user.id === comment.author._id"
-                        @click="showEdit(comment.text, comment._id)">Edit</button>
-                        <button class="dlt" v-if="userData.user.id === comment.author._id"
-                        @click="deleteCommentHandler(comment._id, comment.text)">Delete</button>
+                <div class="flex-center" style="flex-direction: column;">
+                    <div class="field-container" v-if="!editMode">
+                        <label for="write-comment">Text:</label>
+                        <input id="write-comment" v-model.trim="text">
+                        <div v-for="error of v$.text.$errors" :key="error.$uid" class="input-errors">
+                            <div class="error-msg">
+                                {{ error.$message }}
+                            </div>
+                        </div>
+                        <button @click="commentHandler">Comment</button>
+                    </div>
+                    <div class="field-container" v-else>
+                        <label for="write-comment">Text:</label>
+                        <input id="write-comment" v-model="editText">
+                        <button @click="editCommentHandler">Edit</button>
+                        <button @click="editMode = false">Cancel</button>
+                    </div>
+                </div>
+                <div class="comments-container">
+                    <div v-for="comment in post.comments" class="comment">
+                        <p>{{ comment.author.username }}: {{ comment.text }}</p>
+                        <div class="buttons-container">
+                            <button class="dlt" v-if="userData.user.id === comment.author._id"
+                                @click="showEdit(comment.text, comment._id)">Edit</button>
+                            <button class="dlt" v-if="userData.user.id === comment.author._id"
+                                @click="deleteCommentHandler(comment._id, comment.text)">Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </slot>
 </template>
 
 <style scoped>
+.comments-container {
+    max-height: 220px;
+    overflow: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.post-text {
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.container {
+    max-width: 750px;
+}
+
 .buttons-container {
     display: flex;
     justify-content: space-between;
@@ -136,6 +185,7 @@ div.post {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    max-height: 300px;
 }
 
 div.comment {

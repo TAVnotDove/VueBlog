@@ -34,8 +34,8 @@ export default {
         <h1 v-if="posts.length === 0">No posts found</h1>
         <div v-else class="posts-container">
             <div v-for="post in posts" class="post">
-                <h3>Title <br/>{{ post?.title }}</h3>
-                <h3>Author <br/>{{ post?.author?.username }}</h3>
+                <h3>{{ post?.title }}</h3>
+                <p>Author: {{ post?.author?.username }}</p>
                 <router-link :to="'/posts/' + post._id">Details</router-link>
             </div>
         </div>
@@ -43,12 +43,12 @@ export default {
 </template>
 
 <style scoped>
-
 .container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
+
 .search-bar {
     outline: none;
     font-size: 1.25rem;
