@@ -5,7 +5,38 @@ import { mapState, mapActions } from "pinia";
 export default {
     setup() {
         const userStore = useUserStore()
+
         return { userStore }
+    },
+    data() {
+        return {
+            notAuthLinks: [{
+                isAuth: false,
+                to: "/",
+                title: 'Home'
+            }, {
+                isAuth: false,
+                to: "/login",
+                title: 'Login'
+            }, {
+                isAuth: false,
+                to: "/register",
+                title: 'Register'
+            }],
+            isAuthLinks: [{
+                isAuth: true,
+                to: "/posts",
+                title: 'Posts'
+            }, {
+                isAuth: true,
+                to: "/posts/create",
+                title: 'Create post'
+            }, {
+                isAuth: true,
+                to: "/profile",
+                title: 'Profile'
+            }],
+        }
     },
     computed: {
         ...mapState(useUserStore, ['isAuth'])
@@ -20,7 +51,7 @@ export default {
 
                 this.$router.push('/')
             }
-        }
+        },
     }
 }
 </script>
@@ -28,13 +59,19 @@ export default {
 <template>
     <header>
         <nav>
-            <router-link v-if="!isAuth" to="/">Home</router-link>
-            <router-link v-if="!isAuth" to="/login">Login</router-link>
-            <router-link v-if="!isAuth" to="/register">Register</router-link>
-            <router-link v-if="isAuth" to="/posts">Posts</router-link>
-            <router-link v-if="isAuth" to="/posts/create">Create post</router-link>
-            <router-link v-if="isAuth" to="/profile">Profile</router-link>
-            <button v-if="isAuth" @click="logoutHandler">Logout</button>
+            <template v-if="!isAuth">
+                <router-link v-for="routerData of notAuthLinks" :key="routerData.title" :to="routerData.to">
+                    {{ routerData.title }}
+                </router-link>
+            </template>
+
+            <template v-if="isAuth">
+                <router-link v-for="routerData of isAuthLinks" :key="routerData.title" :to="routerData.to">
+                    {{ routerData.title }}
+                </router-link>
+
+                <button v-if="isAuth" @click="logoutHandler">Logout</button>
+            </template>
         </nav>
     </header>
 </template>
