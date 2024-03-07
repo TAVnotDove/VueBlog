@@ -107,9 +107,9 @@ export default {
     <slot v-if="!isLoading">
         <div class="container">
             <div class="post">
-                <p>Title: {{ post.title }}</p>
+                <p>Title: <strong>{{ post.title }}</strong></p>
                 <p class="post-text">Text: {{ post.text }}</p>
-                <p>Author: {{ post.author.username }}</p>
+                <p>Author: <strong>{{ post.author.username }}</strong></p>
                 <div class="buttons-container">
                     <router-link v-if="userData.user.id === post.author._id"
                         :to="`/posts/${post._id}/edit`">Edit</router-link>
@@ -139,7 +139,7 @@ export default {
                 </div>
                 <div class="comments-container">
                     <div v-for="comment in post.comments" class="comment">
-                        <p>{{ comment.author.username }}: {{ comment.text }}</p>
+                        <p><strong>{{ comment.author.username }}:</strong> {{ comment.text }}</p>
                         <div class="buttons-container">
                             <button class="dlt" v-if="userData.user.id === comment.author._id"
                                 @click="showEdit(comment.text, comment._id)">Edit</button>
