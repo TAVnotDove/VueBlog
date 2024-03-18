@@ -75,9 +75,17 @@ a:hover {
 }
 
 .post {
+    max-width: 500px;
+    width: 100%;
     border: 1px solid black;
     border-radius: 10px;
     background-color: lightgray;
     padding: 1rem;
+}
+
+.post h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>
