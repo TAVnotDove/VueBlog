@@ -122,4 +122,10 @@ button:hover {
     color: gray;
     cursor: pointer;
 }
+
+@media (max-width: 640px) {
+    a, button {
+        font-size: 1.125rem;
+    }
+}
 </style>

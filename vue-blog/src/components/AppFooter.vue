@@ -21,4 +21,10 @@
         font-size: 2rem;
         font-weight: 600;
     }
+
+    @media (max-width: 640px) {
+        p {
+            font-size: 1.25rem;
+        }
+    }
 </style>
