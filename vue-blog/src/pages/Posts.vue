@@ -79,7 +79,7 @@ a:hover {
     width: 100%;
     border: 1px solid black;
     border-radius: 10px;
-    background-color: lightgray;
+    background-color: rgba(0, 255, 0, 0.2);
     padding: 1rem;
 }
 
