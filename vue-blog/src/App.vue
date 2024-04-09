@@ -10,7 +10,7 @@
 
 <template>
     <AppHeader></AppHeader>
-    <main class="flex-center">
+    <main>
 		<router-view></router-view>
 	</main>
 	<AppFooter></AppFooter>
@@ -19,5 +19,9 @@
 <style scoped>
 	main {
 		height: 80%;
+		display: flex;
+		justify-content: center;
+		overflow: hidden;
+		overflow-y: auto;
 	}
 </style>
