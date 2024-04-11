@@ -59,6 +59,7 @@ export default {
 a {
     text-decoration: none;
     color: black;
+    margin-top: 0.5rem;
 }
 
 a:hover {
@@ -69,7 +70,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    height: 454px;
+    height: 100%;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -81,11 +82,40 @@ a:hover {
     border-radius: 10px;
     background-color: rgba(0, 255, 0, 0.2);
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .post h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 0.25rem;
+}
+
+@media (max-width: 640px) {
+    h1 {
+        font-size: 1.25rem;
+        margin-bottom: unset;
+    }
+
+    .search-bar {
+        font-size: 1rem;
+    }
+
+    .container {
+        min-width: unset;
+        width: 100%;
+        border-radius: unset;
+    }
+
+    .post {
+        max-width: unset;
+        width: calc(100% - 64px);
+    }
+
+    .posts-container {
+        align-items: center;
+    }
 }
 </style>
