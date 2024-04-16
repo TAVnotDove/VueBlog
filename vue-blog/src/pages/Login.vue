@@ -78,4 +78,39 @@ export default {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+    height: -moz-fit-content;
+    height: fit-content;
+    margin: auto 0;
+}
+
+@media (max-width: 640px) {
+    .container {
+        min-width: unset;
+        max-width: 350px;
+        width: 100%;
+    }
+
+    a,
+    h1 {
+        font-size: 1.125rem;
+    }
+
+    input {
+        font-size: 1rem;
+    }
+
+    label,
+    .form-button {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 384px) {
+    .container {
+        border-radius: 0;
+        border-width: 1px 0;
+    }
+}
+</style>
