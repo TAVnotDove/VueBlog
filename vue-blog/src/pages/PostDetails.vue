@@ -107,9 +107,9 @@ export default {
     <slot v-if="!isLoading">
         <div class="container">
             <div class="post">
-                <p>Title: <strong>{{ post.title }}</strong></p>
-                <p class="post-text">Text: {{ post.text }}</p>
-                <p>Author: <strong>{{ post.author.username }}</strong></p>
+                <p class="post-title">{{ post.title }}</p>
+                <p class="post-author">By <strong>{{ post.author.username }}</strong></p>
+                <p class="post-text">{{ post.text }}</p>
                 <div class="buttons-container">
                     <router-link v-if="userData.user.id === post.author._id"
                         :to="`/posts/${post._id}/edit`">Edit</router-link>
@@ -118,10 +118,9 @@ export default {
                 </div>
             </div>
             <div style="flex-direction: column;" class="flex-center">
-                <p>Comments</p>
+                <label for="write-comment">Comments</label>
                 <div class="flex-center" style="flex-direction: column;">
                     <div class="field-container" v-if="!editMode">
-                        <label for="write-comment">Text:</label>
                         <input id="write-comment" v-model.trim="text">
                         <div v-for="error of v$.text.$errors" :key="error.$uid" class="input-errors">
                             <div class="error-msg">
@@ -155,7 +154,7 @@ export default {
 
 <style scoped>
 .comments-container {
-    max-height: 220px;
+    min-height: 220px;
     overflow: hidden;
     overflow-y: auto;
     display: flex;
@@ -164,13 +163,10 @@ export default {
     margin-top: 1rem;
 }
 
-.post-text {
-    overflow: hidden;
-    overflow-y: auto;
-}
-
 .container {
     max-width: 750px;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 .buttons-container {
@@ -185,7 +181,7 @@ div.post {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    max-height: 300px;
+    min-height: 300px;
 }
 
 div.comment {
@@ -217,7 +213,12 @@ button.dlt:hover {
     color: gray;
 }
 
-p {
+p,
+label {
     font-size: 2rem;
+}
+
+p.post-title {
+    font-weight: bold;
 }
 </style>

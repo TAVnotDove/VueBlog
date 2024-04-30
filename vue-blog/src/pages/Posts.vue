@@ -73,6 +73,7 @@ a:hover {
     height: 100%;
     overflow: hidden;
     overflow-y: auto;
+    padding-bottom: 4px;
 }
 
 .post {
