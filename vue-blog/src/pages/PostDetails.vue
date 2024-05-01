@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { getPost, deletePost } from '../dataProviders/posts';
 import { createComment, editComment, deleteComment } from '../dataProviders/comments'
 import useUserStore from '../store/userStore'
@@ -22,7 +22,7 @@ export default {
     },
     validations() {
         return {
-            text: { required },
+            text: { required: helpers.withMessage('This field cannot be empty', required) },
         }
     },
     computed: {

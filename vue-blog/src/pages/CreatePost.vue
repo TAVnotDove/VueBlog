@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { createPost } from '../dataProviders/posts'
 import useUserStore from '../store/userStore'
 import { mapState } from 'pinia'
@@ -24,8 +24,8 @@ export default {
     validations() {
         return {
             formData: {
-                title: { required },
-                text: { required },
+                title: { required: helpers.withMessage('This field cannot be empty', required) },
+                text: { required: helpers.withMessage('This field cannot be empty', required) },
             }
         }
     },

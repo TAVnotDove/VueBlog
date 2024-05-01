@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required, email, helpers } from '@vuelidate/validators'
 import { register } from '../dataProviders/auth'
 import useUserStore from '../store/userStore'
 import { mapActions } from 'pinia'
@@ -23,10 +23,13 @@ export default {
     validations() {
         return {
             formData: {
-                username: { required },
-                email: { required, email },
-                password: { required },
-                confirmPassword: { required },
+                username: { required: helpers.withMessage('This field cannot be empty', required) },
+                email: {
+                    required: helpers.withMessage('This field cannot be empty', required),
+                    email: helpers.withMessage('This is not a valid email', email)
+                },
+                password: { required: helpers.withMessage('This field cannot be empty', required) },
+                confirmPassword: { required: helpers.withMessage('This field cannot be empty', required) },
             }
         }
     },
