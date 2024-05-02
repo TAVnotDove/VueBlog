@@ -3,11 +3,12 @@ import { defineStore } from "pinia";
 const useUserStore = defineStore("user", {
   state: () => {
     if (!localStorage.getItem("user-data"))
-      return { isAuth: false, userData: {} };
+      return { isAuth: false, userData: {}, theme: "Light" };
 
     return {
       isAuth: true,
       userData: JSON.parse(localStorage.getItem("user-data")),
+      theme: JSON.parse(localStorage.getItem("theme")) || "Light",
     };
   },
   getters: {
@@ -26,6 +27,13 @@ const useUserStore = defineStore("user", {
     logoutUser() {
       this.isAuth = false;
       this.userData = {};
+    },
+    toggleTheme() {
+      if (this.theme === "Light") {
+        this.theme = "Dark";
+      } else {
+        this.theme = "Light";
+      }
     },
   },
 });

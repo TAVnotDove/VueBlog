@@ -9,10 +9,24 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['userData'])
+        ...mapState(useUserStore, ['userData']),
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme
+        }
     },
     mounted() {
         this.user = { ...this.userData.user }
+        this.theme = this.userData.theme
+    },
+    methods: {
+        toggleTheme() {
+            const userStore = useUserStore();
+            userStore.toggleTheme();
+
+            localStorage.setItem('theme', JSON.stringify(userStore.theme))
+        }
     }
 }
 </script>
@@ -33,6 +47,10 @@ export default {
                 <label for="cretedOn">Created on</label>
                 <input disabled id="cretedOn" type="text"
                     :value="new Date(user.createDate).toString().substring(4, 24)">
+            </div>
+            <div class="field-container">
+                <label for="theme">Theme</label>
+                <input id="theme" type="button" @click="toggleTheme" :value="isDarkTheme">
             </div>
         </form>
     </div>
