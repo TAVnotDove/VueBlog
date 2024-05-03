@@ -39,7 +39,12 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['isAuth'])
+        ...mapState(useUserStore, ['isAuth']),
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme === 'Dark'
+        }
     },
     methods: {
         ...mapActions(useUserStore, ['logoutUser']),
@@ -57,7 +62,7 @@ export default {
 </script>
 
 <template>
-    <header>
+    <header :class="{ dark: isDarkTheme }">
         <nav>
             <template v-if="!isAuth">
                 <router-link v-for="routerData of notAuthLinks" :key="routerData.title" :to="routerData.to">
@@ -76,13 +81,13 @@ export default {
     </header>
 </template>
 
-<style scoped>
+<style>
 header {
     height: 10%;
     background-color: var(--main-bg-color);
 }
 
-nav {
+header nav {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -90,7 +95,7 @@ nav {
     width: 100%;
 }
 
-a {
+header a {
     text-decoration: none;
     color: var(--main-text-color);
     font-size: 2rem;
@@ -98,17 +103,17 @@ a {
     transition-duration: 300ms;
 }
 
-a:hover {
+header a:hover {
     transform: translateY(-0.5rem);
     color: gray;
 }
 
-a.router-link-active {
+header a.router-link-active {
     transform: translateY(-0.5rem);
     color: gray;
 }
 
-button {
+header button {
     color: var(--main-text-color);
     border: 0;
     background-color: transparent;
@@ -117,14 +122,15 @@ button {
     transition-duration: 300ms;
 }
 
-button:hover {
+header button:hover {
     transform: translateY(-0.5rem);
     color: gray;
     cursor: pointer;
 }
 
 @media (max-width: 640px) {
-    a, button {
+    header a,
+    header button {
         font-size: 1.125rem;
     }
 }

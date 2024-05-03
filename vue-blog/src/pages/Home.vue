@@ -1,12 +1,20 @@
 <script>
-export default {
+import useUserStore from "../store/userStore";
 
+export default {
+    computed: {
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme === 'Dark'
+        }
+    },
 }
 </script>
 
 <template>
     <div class="flex-center">
-        <h1>Welcome to VueBlog!</h1>
+        <h1 :class="{ dark: isDarkTheme }">Welcome to VueBlog!</h1>
     </div>
 </template>
 

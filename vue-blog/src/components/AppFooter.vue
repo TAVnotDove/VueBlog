@@ -1,30 +1,38 @@
 <script>
-    export default {
-        
-    }
+import useUserStore from "../store/userStore";
+
+export default {
+    computed: {
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme === 'Dark'
+        }
+    },
+}
 </script>
 
 <template>
-    <footer class="flex-center">
+    <footer class="flex-center" :class="{ dark: isDarkTheme }">
         <p>TAVnotDove 2023</p>
     </footer>
 </template>
 
-<style scoped>
-    footer {
-        height: 10%;
-        background-color: var(--main-bg-color);
-    }
+<style>
+footer {
+    height: 10%;
+    background-color: var(--main-bg-color);
+}
 
-    p {
-        color: var(--main-text-color);
-        font-size: 2rem;
-        font-weight: 600;
-    }
+footer p {
+    color: var(--main-text-color);
+    font-size: 2rem;
+    font-weight: 600;
+}
 
-    @media (max-width: 640px) {
-        p {
-            font-size: 1.25rem;
-        }
+@media (max-width: 640px) {
+    footer p {
+        font-size: 1.25rem;
     }
+}
 </style>

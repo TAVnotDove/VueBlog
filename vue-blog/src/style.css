@@ -70,3 +70,24 @@ h1 {
     color: red;
     font-weight: 600;
 }
+
+/* dark themes */
+
+h1.dark {
+    color: #e8e6e3;
+}
+
+header.dark,
+footer.dark {
+    background-color: #2a3a4b;
+}
+
+header.dark a,
+header.dark button,
+footer.dark p {
+    color: #59c393;
+}
+
+main.dark {
+    background-color: #181a1b;
+}
