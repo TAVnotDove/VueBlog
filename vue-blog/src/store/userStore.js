@@ -23,10 +23,12 @@ const useUserStore = defineStore("user", {
     loginUser(userData) {
       this.isAuth = true;
       this.userData = userData;
+      this.theme = JSON.parse(localStorage.getItem("theme")) || "Light";
     },
     logoutUser() {
       this.isAuth = false;
       this.userData = {};
+      this.theme = "Light";
     },
     toggleTheme() {
       if (this.theme === "Light") {

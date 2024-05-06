@@ -50,7 +50,7 @@ export default {
         ...mapActions(useUserStore, ['logoutUser']),
         logoutHandler() {
             if (window.confirm("Are you sure you want to logout?")) {
-                localStorage.clear()
+                localStorage.removeItem('user-data')
 
                 this.logoutUser()
 

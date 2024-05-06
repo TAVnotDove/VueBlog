@@ -91,3 +91,16 @@ footer.dark p {
 main.dark {
     background-color: #181a1b;
 }
+
+label.dark {
+    color: #e8e6e3;
+}
+
+input.dark {
+    color-scheme: dark;
+}
+
+.container.dark {
+    background-color: #3593694d;
+    border-color: #8c8273;
+}
