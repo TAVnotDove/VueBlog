@@ -104,3 +104,18 @@ input.dark {
     background-color: #3593694d;
     border-color: #8c8273;
 }
+
+.posts-container.dark {
+    color-scheme: dark;
+}
+
+.post.dark {
+    border: 1px solid rgb(140, 130, 115);
+    background-color: rgb(36 91 41);
+}
+
+.post.dark h3,
+.post.dark p,
+.post.dark a {
+    color: #e8e6e3;
+}

@@ -10,7 +10,12 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['userData'])
+        ...mapState(useUserStore, ['userData']),
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme === 'Dark'
+        }
     },
     async mounted() {
         this.posts = await getAllPosts(this.userData.jwt)
@@ -28,12 +33,13 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <h1>Posts</h1>
-        <input class="search-bar" type="text" placeholder="Search" @change="changeHandler($event)" />
+    <div class="container" :class="{ dark: isDarkTheme }">
+        <h1 :class="{ dark: isDarkTheme }">Posts</h1>
+        <input class="search-bar" type="text" placeholder="Search" @change="changeHandler($event)"
+            :class="{ dark: isDarkTheme }" />
         <h1 v-if="posts.length === 0">No posts found</h1>
-        <div v-else class="posts-container">
-            <div v-for="post in posts" class="post">
+        <div v-else class="posts-container" :class="{ dark: isDarkTheme }">
+            <div v-for="post in posts" class="post" :class="{ dark: isDarkTheme }">
                 <h3>{{ post?.title }}</h3>
                 <p>Author: {{ post?.author?.username }}</p>
                 <router-link :to="'/posts/' + post._id">Details</router-link>
@@ -42,7 +48,7 @@ export default {
     </div>
 </template>
 
-<style scoped>
+<style>
 .container {
     display: flex;
     flex-direction: column;
