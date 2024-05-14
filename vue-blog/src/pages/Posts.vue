@@ -6,7 +6,8 @@ import { mapState } from 'pinia'
 export default {
     data() {
         return {
-            posts: []
+            posts: [],
+            isLoading: false
         }
     },
     computed: {
@@ -18,14 +19,22 @@ export default {
         }
     },
     async mounted() {
+        this.isLoading = true
+
         this.posts = await getAllPosts(this.userData.jwt)
+
+        this.isLoading = false
     },
     methods: {
         async changeHandler(event) {
+            this.isLoading = true
+
             const res = await searchPosts(this.userData.jwt, event.currentTarget.value)
 
             if (!res.message) {
                 this.posts = res.posts
+
+                this.isLoading = false
             }
         }
     }
@@ -33,18 +42,21 @@ export default {
 </script>
 
 <template>
-    <div class="container" :class="{ dark: isDarkTheme }">
+    <div class="container" :class="{ dark: isDarkTheme }" style="width: 100%; max-width: 549px;">
         <h1 :class="{ dark: isDarkTheme }">Posts</h1>
         <input class="search-bar" type="text" placeholder="Search" @change="changeHandler($event)"
             :class="{ dark: isDarkTheme }" />
-        <h1 v-if="posts.length === 0">No posts found</h1>
-        <div v-else class="posts-container" :class="{ dark: isDarkTheme }">
-            <div v-for="post in posts" class="post" :class="{ dark: isDarkTheme }">
-                <h3>{{ post?.title }}</h3>
-                <p>Author: {{ post?.author?.username }}</p>
-                <router-link :to="'/posts/' + post._id">Details</router-link>
+        <h1 v-if="isLoading" :class="{ dark: isDarkTheme }">Loading...</h1>
+        <template v-else>
+            <h1 v-if="posts.length === 0" :class="{ dark: isDarkTheme }">No posts found</h1>
+            <div v-if="posts.length > 0" class="posts-container" :class="{ dark: isDarkTheme }">
+                <div v-for="post in posts" class="post" :class="{ dark: isDarkTheme }">
+                    <h3>{{ post?.title }}</h3>
+                    <p>Author: {{ post?.author?.username }}</p>
+                    <router-link :to="'/posts/' + post._id">Details</router-link>
+                </div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 
