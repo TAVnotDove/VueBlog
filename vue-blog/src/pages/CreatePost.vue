@@ -16,7 +16,12 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['userData'])
+        ...mapState(useUserStore, ['userData']),
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme === 'Dark'
+        }
     },
     setup() {
         return { v$: useVuelidate() }
@@ -49,12 +54,12 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <h1>Create Post</h1>
+    <div class="container" :class="{ dark: isDarkTheme }">
+        <h1 :class="{ dark: isDarkTheme }">Create Post</h1>
         <form @submit.prevent="submitHandler">
             <div class="field-container">
-                <label for="title">Title</label>
-                <input id="title" v-model="formData.title">
+                <label :class="{ dark: isDarkTheme }" for="title">Title</label>
+                <input :class="{ dark: isDarkTheme }" id="title" v-model="formData.title">
             </div>
             <div v-for="error of v$.formData.title.$errors" :key="error.$uid" class="input-errors">
                 <div class="error-msg">
@@ -62,8 +67,8 @@ export default {
                 </div>
             </div>
             <div class="field-container">
-                <label for="text">Text</label>
-                <input id="text" v-model="formData.text">
+                <label :class="{ dark: isDarkTheme }" for="text">Text</label>
+                <input :class="{ dark: isDarkTheme }" id="text" v-model="formData.text">
             </div>
             <div v-for="error of v$.formData.text.$errors" :key="error.$uid" class="input-errors">
                 <div class="error-msg">
