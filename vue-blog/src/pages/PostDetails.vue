@@ -26,7 +26,12 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['userData'])
+        ...mapState(useUserStore, ['userData']),
+        isDarkTheme() {
+            const userStore = useUserStore();
+
+            return userStore.theme === 'Dark'
+        }
     },
     async mounted() {
         const result = await getPost(this.userData.jwt, this.$route.params.postId)
@@ -105,11 +110,11 @@ export default {
 
 <template>
     <slot v-if="!isLoading">
-        <div class="container">
-            <div class="post">
-                <p class="post-title">{{ post.title }}</p>
-                <p class="post-author">By <strong>{{ post.author.username }}</strong></p>
-                <p class="post-text">{{ post.text }}</p>
+        <div class="container" :class="{ dark: isDarkTheme }">
+            <div class="post-details">
+                <p class="post-title" :class="{ dark: isDarkTheme }">{{ post.title }}</p>
+                <p class="post-author" :class="{ dark: isDarkTheme }">By <strong>{{ post.author.username }}</strong></p>
+                <p class="post-text" :class="{ dark: isDarkTheme }">{{ post.text }}</p>
                 <div class="buttons-container">
                     <router-link v-if="userData.user.id === post.author._id"
                         :to="`/posts/${post._id}/edit`">Edit</router-link>
@@ -118,32 +123,35 @@ export default {
                 </div>
             </div>
             <div style="flex-direction: column;" class="flex-center">
-                <label for="write-comment">Comments</label>
+                <label for="write-comment" :class="{ dark: isDarkTheme }">Comments</label>
                 <div class="flex-center" style="flex-direction: column;">
                     <div class="field-container" v-if="!editMode">
-                        <input id="write-comment" v-model.trim="text">
+                        <input id="write-comment" v-model.trim="text" :class="{ dark: isDarkTheme }">
                         <div v-for="error of v$.text.$errors" :key="error.$uid" class="input-errors">
                             <div class="error-msg">
                                 {{ error.$message }}
                             </div>
                         </div>
-                        <button @click="commentHandler">Comment</button>
+                        <input type="button" @click="commentHandler" :class="{ dark: isDarkTheme }" value="Comment" />
                     </div>
                     <div class="field-container" v-else>
-                        <label for="write-comment">Text:</label>
-                        <input id="write-comment" v-model="editText">
-                        <button @click="editCommentHandler">Edit</button>
-                        <button @click="editMode = false">Cancel</button>
+                        <label for="write-comment" :class="{ dark: isDarkTheme }">Text:</label>
+                        <input id="write-comment" v-model="editText" :class="{ dark: isDarkTheme }">
+                        <input type="button" @click="editCommentHandler" :class="{ dark: isDarkTheme }" value="Edit" />
+                        <input type="button" @click="editMode = false" :class="{ dark: isDarkTheme }" value="Cancel" />
                     </div>
                 </div>
                 <div class="comments-container">
                     <div v-for="comment in post.comments" class="comment">
-                        <p><strong>{{ comment.author.username }}:</strong> {{ comment.text }}</p>
+                        <p :class="{ dark: isDarkTheme }"><strong>{{ comment.author.username }}:</strong> {{
+                            comment.text }}</p>
                         <div class="buttons-container">
                             <button class="dlt" v-if="userData.user.id === comment.author._id"
-                                @click="showEdit(comment.text, comment._id)">Edit</button>
+                                @click="showEdit(comment.text, comment._id)"
+                                :class="{ dark: isDarkTheme }">Edit</button>
                             <button class="dlt" v-if="userData.user.id === comment.author._id"
-                                @click="deleteCommentHandler(comment._id, comment.text)">Delete</button>
+                                @click="deleteCommentHandler(comment._id, comment.text)"
+                                :class="{ dark: isDarkTheme }">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -152,7 +160,7 @@ export default {
     </slot>
 </template>
 
-<style scoped>
+<style>
 .comments-container {
     min-height: 220px;
     overflow: hidden;
@@ -172,16 +180,16 @@ export default {
 .buttons-container {
     display: flex;
     justify-content: space-between;
+    margin-top: 8px;
 }
 
-div.post {
+div.post-details {
     background-color: rgba(0, 255, 0, 0.2);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    min-height: 300px;
 }
 
 div.comment {
@@ -220,5 +228,14 @@ label {
 
 p.post-title {
     font-weight: bold;
+}
+
+.field-container input[type='button'].dark {
+    height: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    padding: 1px 6px;
 }
 </style>

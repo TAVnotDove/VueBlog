@@ -81,7 +81,7 @@ a {
 }
 
 a:hover {
-    color: gray;
+    color: gray !important;
 }
 
 .posts-container {

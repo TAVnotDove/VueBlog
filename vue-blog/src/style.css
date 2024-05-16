@@ -116,6 +116,11 @@ input.dark {
 
 .post.dark h3,
 .post.dark p,
-.post.dark a {
+.post.dark a,
+.post-title,
+.post-author,
+.post-text,
+.comment p,
+.comment .buttons-container button {
     color: #e8e6e3;
 }
